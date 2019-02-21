@@ -202,17 +202,18 @@ def saveVisualizations(neu_arr,shp,mainDir):
     plt.imsave('{}/ERD.png'.format(savePath), dj.ERD(Schema).make_image())
 
     # plot STA's
-    delay = STRFParams.fetch1('delay')
     final = STRFCalcs & neu_arr
-    final = final.fetch('sta')
+    final = final.fetch()
     # print(final.shape)
     fig=plt.figure(figsize=(8, 8))
     columns = shp[1]
     rows = shp[0]
     for i in range(1, len(final) +1):
         fig.add_subplot(rows, columns, i)
+        delay = STRFParams & 'strf_id={}'.format(final[i-1]['strf_id'])
+        delay = delay.fetch1('delay')
         plt.title('STA id: {}, Delay: {}'.format(i,delay))
-        plt.imshow(final[i-1], cmap='gray', interpolation='nearest')
+        plt.imshow(final[i-1]['sta'], cmap='gray', interpolation='nearest')
     plt.savefig('{}/STA.png'.format(savePath))
 
     # plot spikes scatter

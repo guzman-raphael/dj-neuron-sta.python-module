@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="dj_neuron-rguzman",
-    version="0.1.2",
+    version="0.1.3",
     author="Raphael Guzman",
     author_email="raphael.h.guzman@gmail.com",
     description="Vathes engineering task submission.",

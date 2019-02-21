@@ -76,8 +76,7 @@ def createSchemaScratch(mainDir,delay):
     data = prepareTaskData(mainDir)
     print('-----{}-----'.format('Populate Schema from Scratch (Manual,Import,Compute)'))
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    with open('{}/../config/instance.json'.format(dir_path)) as f:
+    with open('{}/config/instance.json'.format(mainDir)) as f:
         jsonData = json.load(f)
 
     dj.schema(jsonData['schema']).drop()
@@ -157,6 +156,18 @@ def updateSchemaComputationOnly(delay):
 
     data_ins = {
         'strf_id' : 0,
+        'delay' : delay
+    }
+    STRFParams().insert1(data_ins,skip_duplicates=True)
+
+    STRFCalcs.populate()
+
+def addComputationComparison(delay):
+
+    print('-----{}-----'.format('Add Computation for Delay Param Comparison'))
+
+    data_ins = {
+        'strf_id' : len(STRFParams()),
         'delay' : delay
     }
     STRFParams().insert1(data_ins,skip_duplicates=True)
